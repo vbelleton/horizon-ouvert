@@ -48,3 +48,13 @@ test('daysBetween compte en jours calendaires', () => {
 test('un jour mal formé est refusé', () => {
   expect(() => addDays('7/11/2026', 1)).toThrow()
 })
+
+test('formatDay garde le jour, sans décalage de fuseau', async () => {
+  const { formatDay, relativeDays } = await import('../../utils/dates')
+  expect(formatDay('2026-11-07')).toBe('7 novembre')
+  expect(formatDay('2026-03-29', true)).toBe('dimanche 29 mars')
+  expect(relativeDays(0)).toBe('aujourd’hui')
+  expect(relativeDays(1)).toBe('hier')
+  expect(relativeDays(12)).toBe('il y a 12 jours')
+  expect(relativeDays(21)).toBe('il y a 3 semaines')
+})

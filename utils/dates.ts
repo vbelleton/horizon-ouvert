@@ -55,3 +55,24 @@ export function daysBetween(from: IsoDay, to: IsoDay): number {
   assertDay(to)
   return Math.round((Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86_400_000)
 }
+
+/** Un jour calendaire en toutes lettres, sans décalage de fuseau (« 7 novembre », « samedi 7 novembre »). */
+export function formatDay(day: IsoDay, withWeekday = false): string {
+  assertDay(day)
+  const [y, m, d] = day.split('-').map(Number) as [number, number, number]
+  return new Intl.DateTimeFormat('fr-FR', {
+    timeZone: 'UTC',
+    weekday: withWeekday ? 'long' : undefined,
+    day: 'numeric',
+    month: 'long',
+  }).format(new Date(Date.UTC(y, m - 1, d, 12)))
+}
+
+/** « aujourd'hui », « hier », « il y a 12 jours »… */
+export function relativeDays(n: number): string {
+  if (n <= 0) return 'aujourd’hui'
+  if (n === 1) return 'hier'
+  if (n < 14) return `il y a ${n} jours`
+  if (n < 60) return `il y a ${Math.round(n / 7)} semaines`
+  return `il y a ${Math.round(n / 30)} mois`
+}

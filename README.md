@@ -37,6 +37,7 @@ Relier ce dépôt à un projet Cloudflare Pages : commande de build `npm run bui
 npm run typecheck
 npm run test:unit   # dates, en fuseau Europe/Paris
 npm run test:db     # migrations + RLS + signaux sur un Postgres local
+npm run test:e2e    # parcours complet dans un navigateur (faux Supabase en mémoire)
 ```
 
 La conception complète est dans le [document de conception](https://claude.ai/artifact/1nveEgsqES2NdawGsZQvWR) ; les règles de travail dans `CLAUDE.md`.
