@@ -1,0 +1,95 @@
+/* Horizon Ouvert : calme plutôt qu'alarmant. Jamais de rouge vif. */
+:root {
+  --bg: #f6f4ef;
+  --surface: #ffffff;
+  --ink: #1d2328;
+  --ink-soft: #5d6670;
+  --line: #e3dfd6;
+  --accent: #1f3b4d;
+  --sun: #d9a441;
+  --attention: #b7853a;   /* ambre doux pour ce qui demande un regard */
+  --radius: 16px;
+  --gutter: 16px;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14161a;
+    --surface: #1d2026;
+    --ink: #eceae4;
+    --ink-soft: #a3a9b0;
+    --line: #2c3038;
+    --accent: #9cc0d6;
+    --sun: #e8b866;
+    --attention: #e0b46e;
+    color-scheme: dark;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { line-height: 1.2; margin: 0 0 0.5em; letter-spacing: -0.01em; }
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.15rem; }
+p { margin: 0 0 1em; }
+a { color: var(--accent); }
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: calc(var(--gutter) + env(safe-area-inset-top)) var(--gutter) 112px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.muted { color: var(--ink-soft); }
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--bg);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.button:disabled { opacity: 0.6; cursor: default; }
+
+input[type='email'] {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+input:focus-visible, .button:focus-visible, a:focus-visible {
+  outline: 2px solid var(--sun);
+  outline-offset: 2px;
+}
