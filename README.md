@@ -41,3 +41,13 @@ npm run test:e2e    # parcours complet dans un navigateur (faux Supabase en mém
 ```
 
 La conception complète est dans le [document de conception](https://claude.ai/artifact/1nveEgsqES2NdawGsZQvWR) ; les règles de travail dans `CLAUDE.md`.
+
+## Importer les données de Routine Tracker
+
+Une fois la base créée et ta première connexion faite (ton uuid est dans Supabase > Authentication > Users) :
+
+```bash
+node scripts/import-routine-tracker.mjs --user <ton-uuid> > import.sql   # API de Routine Tracker sur localhost:8787
+```
+
+Colle ensuite `import.sql` dans l'éditeur SQL de Supabase. Rejouable sans doublon. Importe poids, patrimoine et journal spirituel ; le patrimoine remplace la générosité (3 indicateurs au plus par domaine).

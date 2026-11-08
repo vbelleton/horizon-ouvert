@@ -1,0 +1,8 @@
+{
+  "weights": [{"date":"2026-10-01","weight_kg":82.4},{"date":"2026-10-08","weight_kg":81.9}],
+  "netWorth": [{"date":"2026-09-30","total_eur":120000.5,"source":"finary"},{"date":"2026-10-31","total_eur":123400}],
+  "spiritual": [
+    {"type":"priere_fervente","content":"Pour l'église d'Aix\net ses familles","reference":"Ph 4:6","answered":1,"created_at":"2026-10-05 22:30:00"},
+    {"type":"verset","content":"Psaume 23","reference":null,"answered":0,"created_at":"2026-10-06 08:00:00"}
+  ]
+}
