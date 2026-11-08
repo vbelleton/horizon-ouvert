@@ -101,6 +101,8 @@ watch(version, reload)
           </li>
         </ul>
       </section>
+
+      <NuxtLink to="/app/connexions" class="link muted conn">Connexions : recevoir ma santé sans saisie</NuxtLink>
     </template>
   </main>
 </template>
@@ -109,6 +111,7 @@ watch(version, reload)
 .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
 .date { margin: 0; }
 .date::first-letter { text-transform: uppercase; }
+.conn { display: inline-block; text-decoration: none; }
 .link { background: none; border: 0; font: inherit; font-size: 0.85rem; cursor: pointer; padding: 8px 0; min-height: 44px; }
 section { margin-bottom: 24px; }
 .rose-card { padding: 24px 16px 8px; }

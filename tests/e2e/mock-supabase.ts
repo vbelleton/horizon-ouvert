@@ -28,7 +28,7 @@ export const makeDb = (): Record<string, any[]> => {
       { id: 'p2', user_id: 'u', name: 'Paul', circle: 'proche', cadence_days: 30, last_contact_on: iso(-9), note: null },
       { id: 'p3', user_id: 'u', name: 'Sophie', circle: 'intime', cadence_days: 14, last_contact_on: iso(-3), note: null },
     ],
-    interaction: [], journal_entry: [],
+    interaction: [], journal_entry: [], ingest_token: [],
     commitment: [
       { id: 'k1', user_id: 'u', domain_id: 'd-responsabilites', title: 'Conseil de l’église', kind: 'responsabilite', status: 'actif', next_step: 'Préparer l’ordre du jour', review_on: null, note: null },
       { id: 'k2', user_id: 'u', domain_id: 'd-responsabilites', title: 'Association Bras Ouverts', kind: 'projet', status: 'actif', next_step: null, review_on: null, note: null },
@@ -61,6 +61,12 @@ export const handler = (db: Record<string, any[]>, log: string[]) => async (rout
   const headers = { 'access-control-allow-origin': '*', 'access-control-allow-headers': '*', 'access-control-allow-methods': '*', 'content-type': 'application/json' };
   if (req.method() === 'OPTIONS') return route.fulfill({ status: 204, headers });
   if (!m) return route.fulfill({ status: 200, headers, body: '{}' });
+  if (m[1] === 'rpc') {
+    const fn = url.pathname.split('/').pop();
+    if (fn === 'create_ingest_token') { db.ingest_token.splice(0); db.ingest_token.push({ user_id: 'u', created_at: '2026-11-08T20:00:00Z', last_used_at: null }); log.push('RPC create_ingest_token'); return route.fulfill({ status: 200, headers, body: JSON.stringify('ho_testtoken') }); }
+    if (fn === 'revoke_ingest_token') { db.ingest_token.splice(0); log.push('RPC revoke_ingest_token'); return route.fulfill({ status: 204, headers }); }
+    return route.fulfill({ status: 404, headers, body: JSON.stringify({ message: 'no rpc ' + fn }) });
+  }
   const t = m[1]; const single = (req.headers()['accept'] || '').includes('pgrst.object');
   const send = (rows: any[], status = 200) => route.fulfill({ status, headers, body: JSON.stringify(single ? (rows[0] ?? null) : rows) });
   if (t === 'signals') return send(signals());
