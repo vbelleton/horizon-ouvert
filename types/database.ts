@@ -127,6 +127,12 @@ export type JournalEntryRow = {
   created_at?: string
 }
 
+export type IngestTokenRow = {
+  user_id: string
+  created_at: string
+  last_used_at: string | null
+}
+
 export type SignalRow = {
   user_id: string
   domain_key: DomainKey | null
@@ -151,11 +157,15 @@ export type Database = {
       indicator: Table<IndicatorRow>
       measurement: Table<MeasurementRow>
       journal_entry: Table<JournalEntryRow>
+      ingest_token: Table<IngestTokenRow>
     }
     Views: {
       signals: { Row: SignalRow; Relationships: [] }
     }
-    Functions: { [_ in never]: never }
+    Functions: {
+      create_ingest_token: { Args: Record<string, never>; Returns: string }
+      revoke_ingest_token: { Args: Record<string, never>; Returns: undefined }
+    }
     Enums: { domain_key: DomainKey }
     CompositeTypes: { [_ in never]: never }
   }

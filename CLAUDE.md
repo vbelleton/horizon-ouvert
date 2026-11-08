@@ -52,4 +52,5 @@ npm run test:e2e     # build Node + parcours complet dans un navigateur, contre 
 - **En-têtes de sécurité** : source unique dans `routeRules` (`nuxt.config.ts`). Ne pas les redéclarer dans `public/_headers` : Cloudflare joindrait les deux valeurs par une virgule et les navigateurs les ignoreraient.
 - **Les types de ligne de `types/database.ts` sont des `type`, pas des `interface`** : supabase-js exige `Record<string, unknown>`, et une `interface` n'a pas de signature d'index, ce qui fait tomber tous les `insert`/`update` en `never`.
 - **Saisie quotidienne** : le sommeil par défaut (7 h) n'est enregistré que si la personne touche le compteur ; un défaut ne doit jamais devenir une donnée.
+- **Connecteurs entrants** (santé, plus tard agenda/finances) : jamais de clé `service_role` côté serveur. Une fonction SQL `security definer` reçoit un jeton personnel (haché, `ingest_token`), n'écrit que pour son propriétaire, valide les bornes, et est testée dans `supabase/tests/ingest_check.sql`.
 - **`types/database.ts` est écrit à la main** pour le socle ; le régénérer avec `npx supabase gen types typescript --project-id <id>` dès que le projet Supabase existe.

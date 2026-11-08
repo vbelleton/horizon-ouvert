@@ -14,6 +14,7 @@ for f in supabase/migrations/*.sql; do
   "${PSQL[@]}" -d "$DB" -f "$f"
 done
 "${PSQL[@]}" -d "$DB" -f supabase/tests/rls_and_signals.sql
+"${PSQL[@]}" -d "$DB" -f supabase/tests/ingest_check.sql
 # Import Routine Tracker : appliqué deux fois, mêmes comptes.
 IMPORT_SQL="$(mktemp)"
 node scripts/import-routine-tracker.mjs --user 00000000-0000-0000-0000-00000000000a --fixture tests/fixtures/routine-tracker.json > "$IMPORT_SQL"

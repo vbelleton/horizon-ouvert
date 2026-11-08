@@ -83,6 +83,19 @@ test('parcours complet', async ({ page, context }) => {
   await page.getByRole('button', { name: 'Garder' }).click()
   await expect(page.getByText('Garder le cap, sans me presser.')).toBeVisible()
 
+  // Connexions : créer le jeton santé, le voir une fois, puis couper
+  await page.goto('/app')
+  await page.getByRole('link', { name: /Connexions/ }).click()
+  await expect(page.getByText('Pas encore connectée.')).toBeVisible()
+  await page.getByRole('button', { name: 'Créer mon jeton' }).click()
+  await expect(page.getByText('Copie ton jeton maintenant')).toBeVisible()
+  await expect(page.getByText(/"p_token": "ho_testtoken"/)).toBeVisible()
+  await expect(page.getByText('http://supabase.test/rest/v1/rpc/ingest_health')).toBeVisible()
+  await expect(page.getByText(/Connexion active depuis le/)).toBeVisible()
+  page.once('dialog', (d) => d.accept())
+  await page.getByRole('button', { name: 'Couper la connexion' }).click()
+  await expect(page.getByText('Pas encore connectée.')).toBeVisible()
+
   expect(errors).toEqual([])
 })
 

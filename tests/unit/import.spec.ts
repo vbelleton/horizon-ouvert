@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test'
 import { readFileSync } from 'node:fs'
-// @ts-expect-error module .mjs sans types
 import { buildImportSql, dayIn } from '../../scripts/import-routine-tracker.mjs'
 
 const data = JSON.parse(readFileSync('tests/fixtures/routine-tracker.json', 'utf8'))
