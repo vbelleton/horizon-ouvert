@@ -6,6 +6,7 @@ const tabs = [
   { to: '/app/journal', label: 'Journal', icon: 'M6 4h11a1 1 0 0 1 1 1v15H7a1 1 0 0 1-1-1zM9 8h6' },
 ]
 const route = useRoute()
+const quickAdd = useState<null | 'menu' | 'checkin' | 'contact' | 'note'>('quickadd', () => null)
 const isActive = (to: string) => (to === '/app' ? route.path === '/app' : route.path.startsWith(to))
 </script>
 
@@ -23,7 +24,7 @@ const isActive = (to: string) => (to === '/app' ? route.path === '/app' : route.
         <svg viewBox="0 0 24 24" aria-hidden="true"><path :d="tab.icon" /></svg>
         <span>{{ tab.label }}</span>
       </NuxtLink>
-      <button class="add" type="button" aria-label="Ajouter : contact, mesure, note ou engagement" disabled title="Saisie rapide : semaine 4">
+      <button class="add" type="button" aria-label="Ajouter : check-in, contact ou note" @click="quickAdd = 'menu'">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
       </button>
       <NuxtLink
@@ -37,6 +38,7 @@ const isActive = (to: string) => (to === '/app' ? route.path === '/app' : route.
         <span>{{ tab.label }}</span>
       </NuxtLink>
     </nav>
+    <QuickAdd />
   </div>
 </template>
 
@@ -86,5 +88,4 @@ const isActive = (to: string) => (to === '/app' ? route.path === '/app' : route.
   display: grid;
   place-items: center;
 }
-.add:disabled { opacity: 0.5; }
 </style>

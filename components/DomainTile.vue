@@ -5,12 +5,12 @@ defineProps<{ domain: DomainRow; focus?: boolean; score?: number }>()
 </script>
 
 <template>
-  <div class="tile" :style="{ '--domain': domain.color }">
+  <NuxtLink :to="`/app/domaine/${domain.key}`" class="tile" :style="{ '--domain': domain.color }">
     <span class="dot" aria-hidden="true" />
     <span class="label">{{ domain.label }}</span>
     <span v-if="focus" class="focus">priorité</span>
-    <span class="state muted">{{ score ? `${score} / 5` : 'pas encore de pouls' }}</span>
-  </div>
+    <span class="state muted">{{ score ? `Pouls : ${score} sur 5` : 'Pas encore de pouls' }}</span>
+  </NuxtLink>
 </template>
 
 <style scoped>
@@ -25,7 +25,10 @@ defineProps<{ domain: DomainRow; focus?: boolean; score?: number }>()
   border-left: 4px solid var(--domain);
   border-radius: 14px;
   min-height: 64px;
+  color: var(--ink);
+  text-decoration: none;
 }
+.tile:focus-visible { outline: 2px solid var(--sun); outline-offset: 2px; }
 .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--domain); }
 .label { font-weight: 600; }
 .focus {

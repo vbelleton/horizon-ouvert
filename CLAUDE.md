@@ -32,7 +32,14 @@ npm run build        # build Cloudflare Pages dans dist/
 npm run typecheck
 npm run test:unit    # tests unitaires en fuseau Europe/Paris
 npm run test:db      # applique les migrations sur un Postgres local jetable + vérifie RLS et signaux
+npm run test:e2e     # build Node + parcours complet dans un navigateur, contre un faux Supabase en mémoire
 ```
+
+## Tests
+
+- `test:db` vérifie la **sécurité** (RLS, clés composites, signaux) sur un vrai Postgres ; `test:e2e` vérifie l'**interface** (ce qu'elle lit, écrit, et le jour envoyé). Le faux Supabase de `tests/e2e/mock-supabase.ts` ne remplace jamais le premier.
+- Si Playwright ne trouve pas son navigateur : `PW_CHROMIUM_PATH=<chemin de chrome> npx playwright test`.
+- Une nouvelle saisie ou lecture = une étape dans `tests/e2e/parcours.spec.ts` ; une nouvelle table = un cas dans `supabase/tests/rls_and_signals.sql`.
 
 ## Pièges non évidents
 
@@ -43,4 +50,6 @@ npm run test:db      # applique les migrations sur un Postgres local jetable + v
 - **Les indicateurs calculés et les signaux sont des vues SQL** (`signals`, `people_due`), pas du code front. Un nouveau signal = une branche `union all` dans `signals` + un test.
 - **Ne jamais sauvegarder ce qu'on n'a pas réussi à lire** (leçon de Cieux Ouverts) : un auto-save ne doit jamais écraser une ligne dont la lecture a échoué.
 - **En-têtes de sécurité** : source unique dans `routeRules` (`nuxt.config.ts`). Ne pas les redéclarer dans `public/_headers` : Cloudflare joindrait les deux valeurs par une virgule et les navigateurs les ignoreraient.
+- **Les types de ligne de `types/database.ts` sont des `type`, pas des `interface`** : supabase-js exige `Record<string, unknown>`, et une `interface` n'a pas de signature d'index, ce qui fait tomber tous les `insert`/`update` en `never`.
+- **Saisie quotidienne** : le sommeil par défaut (7 h) n'est enregistré que si la personne touche le compteur ; un défaut ne doit jamais devenir une donnée.
 - **`types/database.ts` est écrit à la main** pour le socle ; le régénérer avec `npx supabase gen types typescript --project-id <id>` dès que le projet Supabase existe.

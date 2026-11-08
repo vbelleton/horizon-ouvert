@@ -37,6 +37,17 @@ Relier ce dépôt à un projet Cloudflare Pages : commande de build `npm run bui
 npm run typecheck
 npm run test:unit   # dates, en fuseau Europe/Paris
 npm run test:db     # migrations + RLS + signaux sur un Postgres local
+npm run test:e2e    # parcours complet dans un navigateur (faux Supabase en mémoire)
 ```
 
 La conception complète est dans le [document de conception](https://claude.ai/artifact/1nveEgsqES2NdawGsZQvWR) ; les règles de travail dans `CLAUDE.md`.
+
+## Importer les données de Routine Tracker
+
+Une fois la base créée et ta première connexion faite (ton uuid est dans Supabase > Authentication > Users) :
+
+```bash
+node scripts/import-routine-tracker.mjs --user <ton-uuid> > import.sql   # API de Routine Tracker sur localhost:8787
+```
+
+Colle ensuite `import.sql` dans l'éditeur SQL de Supabase. Rejouable sans doublon. Importe poids, patrimoine et journal spirituel ; le patrimoine remplace la générosité (3 indicateurs au plus par domaine).
